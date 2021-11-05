@@ -10,6 +10,7 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -19,13 +20,16 @@ class ContactDetailsViewModel @Inject constructor(
     val contactsRepository: ContactsRepository
 ) : ViewModel() {
 
+    private lateinit var contactUpdates: StateFlow<OperationResult<Contact>>
     fun contactUpdates(id: Int): StateFlow<OperationResult<Contact>> {
-       return loadContact(id)
+        contactUpdates = loadContact(id)
             .stateIn(
                 scope = viewModelScope,
                 started = WhileSubscribed(5000),
                 initialValue = OperationResult.Loading
             )
+
+        return contactUpdates
     }
 
     private fun loadContact(id: Int): Flow<OperationResult<Contact>> {
@@ -35,6 +39,21 @@ class ContactDetailsViewModel @Inject constructor(
     fun delete(id: Int) {
         viewModelScope.launch {
             contactsRepository.delete(id)
+        }
+    }
+
+    fun save(name: String, lastName: String) {
+        viewModelScope.launch {
+            val contact = contactUpdates.first()
+
+            if(contact is OperationResult.Success) {
+                contactsRepository.save(
+                    contact.value.copy(
+                        firstName = name,
+                        lastName = lastName
+                    )
+                )
+            }
         }
     }
 }

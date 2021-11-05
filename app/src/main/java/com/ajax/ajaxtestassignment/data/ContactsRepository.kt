@@ -70,4 +70,18 @@ class ContactsRepository @Inject constructor(
     suspend fun delete(id: Int) {
         contactsDao.deleteById(id)
     }
+
+    suspend fun save(
+        contact: Contact
+    ) {
+        contactsDao.update(
+            DbContact(
+                id = contact.id,
+                firstName = contact.firstName ?: "",
+                lastName = contact.lastName ?: "",
+                email = contact.email,
+                photo = contact.photo ?: "",
+            )
+        )
+    }
 }

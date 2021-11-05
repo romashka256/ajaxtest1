@@ -51,6 +51,13 @@ open class DetailsFragment : DaggerFragment() {
                     contactViewModel.delete(contactId)
                     requireActivity().supportFragmentManager.popBackStack()
                 }
+
+                save.setOnClickListener {
+                    contactViewModel.save(
+                        textView3.text.toString(),
+                        textView4.text.toString()
+                    )
+                }
             }
             .also {
                 binding = it
@@ -67,8 +74,8 @@ open class DetailsFragment : DaggerFragment() {
                     //todo move check to viewmodel
                     if (it is OperationResult.Success) {
                         binding?.apply {
-                            textView3.text = it.value.firstName
-                            textView4.text = it.value.lastName
+                            textView3.setText(it.value.firstName)
+                            textView4.setText(it.value.lastName)
 
                             Glide.with(requireContext())
                                 .load(it.value.photo)

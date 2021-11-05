@@ -3,13 +3,13 @@ package com.ajax.ajaxtestassignment.ui.contactslist.viewmodel
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
 import com.ajax.ajaxtestassignment.data.ContactsRepository
+import com.ajax.ajaxtestassignment.domain.entity.Contact
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -29,6 +29,18 @@ class ContactListViewModel @Inject constructor(
         return contactsRepository.fetchContacts(checkFirstRun())
     }
 
+    fun delete(id: Int) {
+        viewModelScope.launch {
+            contactsRepository.delete(id)
+        }
+    }
+
+    fun refresh() {
+        viewModelScope.launch {
+            contactsRepository.loadContacts()
+        }
+    }
+
     fun checkFirstRun(): Boolean {
         return if (preferences.getBoolean("first_run", true)) {
             preferences.edit().putBoolean("first_run", false).apply();
@@ -39,14 +51,6 @@ class ContactListViewModel @Inject constructor(
     }
 }
 
-
-data class Contact(
-    val id: Int,
-    val firstName: String?,
-    val lastName: String?,
-    val email: String?,
-    val photo: String?
-)
 
 sealed class OperationResult<out T> {
     object Loading : OperationResult<Nothing>()

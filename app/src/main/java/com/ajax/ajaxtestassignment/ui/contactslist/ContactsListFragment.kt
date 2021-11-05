@@ -41,7 +41,7 @@ open class ContactsListFragment : DaggerFragment() {
         contactAdapter = ContactAdapter(
             requireActivity()
         ) {
-            //todo remove contact
+            contactsViewModel.delete(it)
         }
 
         // Creates a vertical Layout Manager
@@ -49,6 +49,9 @@ open class ContactsListFragment : DaggerFragment() {
             .apply {
                 contactList.layoutManager = LinearLayoutManager(context)
                 contactList.adapter = contactAdapter
+                refresh.setOnClickListener {
+                    contactsViewModel.refresh()
+                }
             }
             .also {
                 binding = binding
@@ -68,6 +71,8 @@ open class ContactsListFragment : DaggerFragment() {
                 }
             }
         }
+
+
     }
 
     override fun onDestroyView() {

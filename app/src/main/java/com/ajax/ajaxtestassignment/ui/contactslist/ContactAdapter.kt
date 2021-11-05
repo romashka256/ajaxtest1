@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ajax.ajaxtestassignment.databinding.ItemContactListBinding
-import com.ajax.ajaxtestassignment.ui.contactslist.viewmodel.Contact
+import com.ajax.ajaxtestassignment.domain.entity.Contact
 import com.bumptech.glide.Glide
 
 class ContactAdapter(

@@ -3,6 +3,7 @@ package com.ajax.ajaxtestassignment.ui.contactslist.viewmodel
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ajax.ajaxtestassignment.common.OperationResult
 import com.ajax.ajaxtestassignment.data.ContactsRepository
 import com.ajax.ajaxtestassignment.domain.entity.Contact
 import kotlinx.coroutines.flow.Flow
@@ -49,11 +50,4 @@ class ContactListViewModel @Inject constructor(
             false;
         }
     }
-}
-
-
-sealed class OperationResult<out T> {
-    object Loading : OperationResult<Nothing>()
-    data class Success<out T>(val value: T) : OperationResult<T>()
-    data class Failed(val value: Exception) : OperationResult<Nothing>()
 }

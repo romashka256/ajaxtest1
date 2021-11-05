@@ -1,10 +1,10 @@
 package com.ajax.ajaxtestassignment.data
 
 import com.ajax.ajaxtestassignment.api.contacts.ContactsService
+import com.ajax.ajaxtestassignment.common.OperationResult
 import com.ajax.ajaxtestassignment.db.contacts.ContactsDao
 import com.ajax.ajaxtestassignment.db.contacts.DbContact
 import com.ajax.ajaxtestassignment.domain.entity.Contact
-import com.ajax.ajaxtestassignment.ui.contactslist.viewmodel.OperationResult
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -50,6 +50,20 @@ class ContactsRepository @Inject constructor(
                     })
                 }
         )
+    }
+
+    fun getContact(id: Int): Flow<OperationResult<Contact>> = flow {
+        emitAll(contactsDao.getById(id).map {
+            OperationResult.Success(
+                Contact(
+                    id = it.id,
+                    firstName = it.firstName ?: "",
+                    lastName = it.lastName ?: "",
+                    email = it.email,
+                    photo = it.photo ?: "",
+                )
+            )
+        })
     }
 
 

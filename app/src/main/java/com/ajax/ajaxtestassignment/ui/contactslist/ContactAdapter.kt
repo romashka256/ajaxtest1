@@ -10,7 +10,8 @@ import com.bumptech.glide.Glide
 
 class ContactAdapter(
     private val context: Activity,
-    val onDelete: (Int) -> Unit
+    val onDelete: (Int) -> Unit,
+    val onContact: (Int) -> Unit
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     var items: List<Contact> = emptyList()
@@ -36,6 +37,10 @@ class ContactAdapter(
         Glide.with(context)
             .load(contact.photo)
             .into(holder.picture)
+
+        holder.itemView.setOnClickListener {
+            onContact(contact.id)
+        }
     }
 
     override fun getItemCount(): Int {

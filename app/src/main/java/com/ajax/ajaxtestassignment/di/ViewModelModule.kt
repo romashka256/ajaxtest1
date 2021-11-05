@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ajax.ajaxtestassignment.common.ViewModelFactory
 import com.ajax.ajaxtestassignment.ui.contactslist.viewmodel.ContactListViewModel
+import com.ajax.ajaxtestassignment.ui.details.viewmodel.ContactDetailsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -23,4 +24,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ContactListViewModel::class)
     abstract fun bindContactsViewModel(contactsViewModel: ContactListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ContactDetailsViewModel::class)
+    abstract fun bindContactDetailsViewModel(contactDetailsViewModel: ContactDetailsViewModel): ViewModel
 }

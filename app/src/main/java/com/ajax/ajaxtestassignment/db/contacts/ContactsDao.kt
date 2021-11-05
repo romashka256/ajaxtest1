@@ -17,6 +17,9 @@ interface ContactsDao {
     @Query("DELETE FROM Contact WHERE id = (:contactId)")
     suspend fun deleteById(contactId: Int)
 
+    @Query("SELECT * FROM Contact WHERE id = (:contactId)")
+    fun getById(contactId: Int): Flow<DbContact>
+
     @Query("DELETE FROM Contact")
     suspend fun deleteAll()
 }

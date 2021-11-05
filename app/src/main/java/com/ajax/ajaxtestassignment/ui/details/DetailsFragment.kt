@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ajax.ajaxtestassignment.databinding.FragmentDetailsBinding
+import dagger.android.support.DaggerFragment
 
 
-open class DetailsFragment : Fragment() {
+open class DetailsFragment : DaggerFragment() {
     var binding: FragmentDetailsBinding? = null
 
     override fun onCreateView(
